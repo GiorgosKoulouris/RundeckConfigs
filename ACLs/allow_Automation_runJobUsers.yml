@@ -1,0 +1,76 @@
+by:
+  group: runJobUsers
+description: Allows runJobUsers the ability to read projects.
+for:
+  project:
+  - allow:
+    - read
+    equals:
+      name: Automation
+context:
+  application: rundeck
+---
+by:
+  group: runJobUsers
+description: Allows runJobUsers the ability to view/read/run Jobs in projects.
+for:
+  job:
+  - allow: 
+    - read
+    - run
+    - view
+    - view_history
+    - kill
+context:
+    project: Automation
+---
+#This entry allows the group permissions to read the nodes in the project.
+by:
+  group: runJobUsers
+description: Allows runJobUsers the ability to read and refresh Nodes in the Automation project.
+for:
+  resource:
+  - allow:
+    - read
+    - refresh
+    equals:
+      kind: node
+context:
+    project: Automation
+---
+# Combined with the entry above, this entry allows the group access do specific actions on the nodes returned from the list in the entry above.
+by:
+  group: runJobUsers
+description: Allows runJobUsers the ability to read details from and run jobs against Nodes available in the Automation project.
+for:
+  node:
+  - allow:
+    - read
+    - run
+context:
+    project: Automation
+---
+by:
+  group: runJobUsers
+description: Allows runJobUsers the ability to read Project Key Storage entries in the project folder and any subfolders.
+for:
+  storage:
+  - allow:
+    - read
+    - write
+    match:
+      path: keys/project/Automation(/.*)?
+context:
+  application: rundeck
+---
+by:
+  group: runJobUsers
+description: Allows runJobUsers the ability to read the Automation Activity Log.
+for:
+  resource:
+  - allow:
+    - read
+    equals:
+      kind: event
+context:
+    project: Automation
